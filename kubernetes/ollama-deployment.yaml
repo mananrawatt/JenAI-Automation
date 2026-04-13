@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ollama
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ollama
+  template:
+    metadata:
+      labels:
+        app: ollama
+    spec:
+      containers:
+        - name: ollama
+          image: ollama/ollama
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              echo "Starting Ollama server..."
+              ollama serve &
+              
+              echo "Waiting for Ollama to be ready..."
+              sleep 8
+              
+              echo "Pulling model..."
+              ollama pull phi
+              
+              echo "Ollama ready!"
+              wait
+          ports:
+            - containerPort: 11434
+          resources:
+            requests:
+              memory: "2Gi"
+              cpu: "1"
+            limits:
+              memory: "3Gi"
+              cpu: "2"
+          volumeMounts:
+            - name: ollama-data
+              mountPath: /root/.ollama
+
+      volumes:
+        - name: ollama-data
+          emptyDir: {}

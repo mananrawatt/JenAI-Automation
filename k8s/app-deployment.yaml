@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenai-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jenai-app
+  template:
+    metadata:
+      labels:
+        app: jenai-app
+    spec:
+      containers:
+        - name: jenai-app
+          image: jenai-app:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8501
+          env:
+            - name: OLLAMA_HOST
+              value: "http://ollama-service:11434"
