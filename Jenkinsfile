@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     parameters {
-        choice(name: 'BRANCH', choices: ['test', 'prod'], description: 'Select branch to deploy')
+        choice(name: 'BRANCH', choices: ['test', 'prod', 'main'], description: 'Select branch to deploy')
     }
 
     environment {
