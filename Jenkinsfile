@@ -10,7 +10,7 @@ pipeline {
         VERSION = "${BUILD_NUMBER}"
         KIND_CLUSTER = "jenai-cluster"
 
-        / 🔥 Binary paths
+        // 🔥 Binary paths
         DOCKER = "/usr/local/bin/docker"
         KIND = "/usr/local/bin/kind"
     }
