@@ -9,6 +9,10 @@ pipeline {
         IMAGE_NAME = "jenai-app"
         VERSION = "${BUILD_NUMBER}"
         KIND_CLUSTER = "jenai-cluster"
+
+        / 🔥 Binary paths
+        DOCKER = "/usr/local/bin/docker"
+        KIND = "/usr/local/bin/kind"
     }
 
     stages {
@@ -21,14 +25,14 @@ pipeline {
 
         stage('Check Docker') {
         steps {
-            sh 'docker version'
+            sh '$DOCKER version'
         }
     }
 
         stage('Build Docker Image') {
             steps {
                 sh """
-                docker build -t $IMAGE_NAME:v$VERSION .
+                $DOCKER build -t $IMAGE_NAME:v$VERSION .
                 """
             }
         }
@@ -36,7 +40,7 @@ pipeline {
         stage('Load Image into Kind') {
             steps {
                 sh """
-                kind load docker-image $IMAGE_NAME:v$VERSION --name $KIND_CLUSTER
+                $KIND load docker-image $IMAGE_NAME:v$VERSION --name $KIND_CLUSTER
                 """
             }
         }
